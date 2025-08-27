@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adriana Sousa - Sua Mente Te Sabota?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #F8F5F0;
+            --text: #33353A;
+            --accent: #D4AF37;
+            --dark: #1A2035;
+            --white: #ffffff;
+            --red: #DC2626;
+            --success: #10B981;
+            --purple: #7C3AED;
+            
+            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #E8C547 30%, #FFD700 70%, #B8860B 100%);
+            --luxury-gradient: linear-gradient(135deg, #F8F5F0 0%, #E8E5E0 50%, #D8D5D0 100%);
+            --dark-gradient: linear-gradient(135deg, #1A2035 0%, #2A3552 50%, #1F2B47 100%);
+            --red-gradient: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+            --purple-gradient: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            
+            --shadow-luxury: 0 15px 50px rgba(26, 32, 53, 0.2), 0 8px 25px rgba(212, 175, 55, 0.15);
+            --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.5), 0 0 80px rgba(212, 175, 55, 0.2);
+            --shadow-card: 0 8px 25px rgba(0, 0, 0, 0.1);
+            
+            --transition-smooth: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-mind: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--luxury-gradient);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(212,175,55,0.12) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(212,175,55,0.08) 0%, transparent 40%);
+            animation: breathingBackground 8s ease-in-out infinite;
+        }
+
+        @keyframes breathingBackground {
+            0%, 100% { background-size: 100% 100%; }
+            50% { background-size: 108% 108%; }
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 15px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Avatar com Overlay de Texto - MELHORADO E CENTRALIZADO */
+        .avatar-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            width: 100%;
+        }
+
+        .avatar {
+            width: 350px;          /* AUMENTADO de 200px */
+            height: 525px;         /* AUMENTADO de 300px */
+            max-width: 90vw;       /* NOVO - responsividade */
+            object-fit: cover;
+            object-position: center; /* NOVO - melhor posicionamento */
+            border-radius: 20px;
+            border: 4px solid rgba(212, 175, 55, 0.5);
+            box-shadow: var(--shadow-luxury);
+            transition: var(--transition-smooth);
+            display: block;
+        }
+
+        .avatar.speaking {
+            animation: avatarGlow 2s ease-in-out infinite;
+            border-color: rgba(220, 38, 38, 0.8);
+        }
+
+        @keyframes avatarGlow {
+            0%, 100% { 
+                border-color: rgba(220, 38, 38, 0.5);
+                box-shadow: var(--shadow-luxury), 0 0 30px rgba(220, 38, 38, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                border-color: rgba(220, 38, 38, 0.9);
+                box-shadow: var(--shadow-glow), 0 0 50px rgba(220, 38, 38, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Texto sobreposto no avatar - MELHORADO */
+        .avatar-text-overlay {
+            position: absolute;
+            top: 22%;
+            left: 68%;
+            transform: translateX(-50%);
+            width: 70%;
+            max-width: 245px;      /* AUMENTADO de 140px */
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .avatar-message {
+            background: transparent;
+            backdrop-filter: none;
+            border: none;
+            border-radius: 0;
+            padding: 6px 10px;     /* AUMENTADO de 4px 6px */
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;       /* AUMENTADO de 9px */
+            font-weight: 900;
+            color: var(--dark);
+            text-align: center;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: none;
+            transform: translateY(20px) scale(0.8);
+            line-height: 1.3;      /* MELHORADO de 1.1 */
+            text-shadow: 
+                2px 2px 4px rgba(255, 255, 255, 0.9),
+                0 0 8px rgba(255, 255, 255, 0.7);
+            min-height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-message.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .avatar-message.fadeout {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.8);
+            transition: all 0.6s ease-out;
+        }
+
+        /* Classes especiais para diferentes tipos de mensagem */
+        .avatar-message.shock {
+            color: var(--red);
+            font-size: 13px;       /* AUMENTADO de 10px */
+            font-weight: 900;
+            text-shadow: 
+                2px 2px 4px rgba(255, 245, 245, 0.9),
+                0 0 10px rgba(220, 38, 38, 0.3);
+            animation: shockPulse 0.8s ease-out;
+        }
+
+        .avatar-message.revelation {
+            color: var(--purple);
+            font-size: 13px;       /* AUMENTADO de 10px */
+            font-weight: 900;
+            text-shadow: 
+                2px 2px 4px rgba(248, 245, 255, 0.9),
+                0 0 10px rgba(124, 58, 237, 0.3);
+            animation: revelationGlow 1s ease-out;
+        }
+
+        .avatar-message.location {
+            color: var(--dark);
+            font-size: 11px;       /* AUMENTADO de 8px */
+            font-weight: 900;
+            text-shadow: 
+                2px 2px 4px rgba(255, 252, 235, 0.9),
+                0 0 8px rgba(212, 175, 55, 0.3);
+        }
+
+        .avatar-message.cultural {
+            color: var(--success);
+            font-size: 12px;       /* AUMENTADO de 9px */
+            font-weight: 900;
+            text-shadow: 
+                2px 2px 4px rgba(245, 255, 245, 0.9),
+                0 0 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .avatar-message.countdown {
+            color: var(--red);
+            font-size: 16px;       /* AUMENTADO de 14px */
+            font-weight: 900;
+            text-shadow: 
+                2px 2px 6px rgba(255, 245, 245, 0.9),
+                0 0 15px rgba(220, 38, 38, 0.5);
+            animation: countdownPulse 1s ease-out;
+        }
+
+        @keyframes shockPulse {
+            0% { transform: translateY(0) scale(1); }
+            30% { transform: translateY(-5px) scale(1.08); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        @keyframes revelationGlow {
+            0% { transform: translateY(0) scale(1); }
+            50% { 
+                transform: translateY(-2px) scale(1.05); 
+                box-shadow: 
+                    0 15px 40px rgba(124, 58, 237, 0.5),
+                    0 8px 20px rgba(0, 0, 0, 0.2);
+            }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        @keyframes countdownPulse {
+            0% { transform: translateY(0) scale(1); }
+            50% { 
+                transform: translateY(-4px) scale(1.15); 
+                text-shadow: 
+                    2px 2px 8px rgba(255, 245, 245, 0.9),
+                    0 0 25px rgba(220, 38, 38, 0.8);
+            }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--white);
+            margin: 10px 0 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gold-gradient);
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .specialty {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 20px;
+        }
+
+        /* Campo de experiência personalizada */
+        .personalization-section {
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px solid var(--purple);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .personalization-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--purple);
+            margin-bottom: 8px;
+        }
+
+        .personalization-subtitle {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .regional-examples {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .regional-tag {
+            background: var(--gold-gradient);
+            color: var(--dark);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .name-input-inline {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--purple);
+            border-radius: 10px;
+            font-size: 15px;
+            margin-bottom: 12px;
+            font-family: inherit;
+            font-weight: 600;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .name-input-inline:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .personalize-btn {
+            background: var(--purple-gradient);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .personalize-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        /* NOVO: Seção GPS Premium */
+        .gps-premium-section {
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .gps-premium-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .gps-premium-description {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .gps-premium-btn {
+            background: var(--gold-gradient);
+            color: var(--dark);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .gps-basic-btn {
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text);
+            border: 2px solid var(--accent);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* Status de leitura mental */
+        .mind-reading-status {
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px dashed var(--purple);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mind-reading-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .mind-reading-status.active::before {
+            left: 100%;
+        }
+
+        .mind-text {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--purple);
+            opacity: 0;
+            transform: translateY(20px) scale(0.8);
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-shadow: 0 2px 10px rgba(124, 58, 237, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .mind-text.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: mindPulse 0.6s ease-out;
+        }
+
+        .mind-text.fade-out {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.8);
+            transition: all 0.5s ease-in;
+        }
+
+        @keyframes mindPulse {
+            0% { transform: translateY(0) scale(1); }
+            50% { 
+                transform: translateY(-3px) scale(1.05); 
+                text-shadow: 0 4px 15px rgba(124, 58, 237, 0.5); 
+            }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        /* Greeting personalizado */
+        .personal-greeting {
+            background: var(--gold-gradient);
+            color: var(--dark);
+            padding: 18px 20px;
+            border-radius: 15px;
+            font-size: 15px;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: var(--shadow-card);
+            line-height: 1.4;
+        }
+
+        /* Services */
+        .services {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 18px;
+            padding: 25px 20px;
+            box-shadow: var(--shadow-card);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent);
+        }
+
+        .service-card.highlighted {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent);
+            z-index: 5;
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .service-number {
+            background: var(--gold-gradient);
+            color: var(--dark);
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .service-badge {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .service-badge.free {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .service-badge.premium {
+            background: var(--red-gradient);
+            color: var(--white);
+        }
+
+        .service-badge.vip {
+            background: var(--purple-gradient);
+            color: var(--white);
+        }
+
+        .service-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .service-description {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .service-local-info {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--dark);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 15px 0;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .service-price {
+            font-size: 28px;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .service-installments {
+            font-size: 12px;
+            color: var(--text);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .service-btn {
+            background: var(--gold-gradient);
+            color: var(--dark);
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .service-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .service-btn.premium {
+            background: var(--dark-gradient);
+            color: var(--white);
+        }
+
+        .service-btn.vip {
+            background: var(--purple-gradient);
+            color: var(--white);
+        }
+
+        /* Loading state para APIs */
+        .loading-geo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(124, 58, 237, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.5s ease;
+        }
+
+        .loading-geo.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Countdown de decisão */
+        .countdown-section {
+            background: var(--gold-gradient);
+            color: var(--dark);
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+            box-shadow: var(--shadow-glow);
+            display: none;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 3px solid var(--red);
+        }
+
+        .countdown-section.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .countdown-text {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .countdown-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--red);
+            margin: 10px 0;
+            text-shadow: 0 4px 15px rgba(220, 38, 38, 0.5);
+            animation: countdownBeat 1s ease-out infinite;
+        }
+
+        @keyframes countdownBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .countdown-subtitle {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVIDADE MELHORADA */
+        @media (max-width: 480px) {
+            .avatar {
+                width: 300px;
+                height: 450px;
+                max-width: 88vw;
+            }
+            
+            .avatar-text-overlay {
+                max-width: 210px;
+            }
+            
+            .avatar-message {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+            
+            .container {
+                padding: 15px 12px;
+            }
+            
+            .name {
+                font-size: 24px;
+            }
+            
+            .service-card {
+                padding: 20px 15px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .avatar {
+                width: 270px;
+                height: 405px;
+                max-width: 85vw;
+            }
+            
+            .avatar-text-overlay {
+                max-width: 180px;
+            }
+            
+            .avatar-message {
+                font-size: 10px;
+                padding: 4px 7px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .avatar {
+                width: 240px;
+                height: 360px;
+                max-width: 82vw;
+            }
+            
+            .avatar-text-overlay {
+                max-width: 160px;
+            }
+            
+            .avatar-message {
+                font-size: 9px;
+                padding: 3px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-geo" id="loadingGeo">Detectando localização...</div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="name">ADRIANA SOUSA</h1>
+            <p class="specialty">Especialista em Transformação Mental</p>
+            
+            <div class="avatar-container">
+                <img src="https://github.com/marcelo-davila-setup/dris/raw/main/Design%20sem%20nome.png" 
+                     alt="Adriana Sousa" 
+                     class="avatar" 
+                     id="avatar"
+                     onerror="this.src='https://via.placeholder.com/350x525/F8F5F0/7C3AED?text=ADRIANA'">
+                
+                <div class="avatar-text-overlay" id="avatarTextOverlay">
+                    <div class="avatar-message" id="avatarMessage">
+                        Iniciando leitura...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campo de personalização integrado -->
+            <div class="personalization-section" id="personalizationSection">
+                <div class="personalization-title">Quer experiência personalizada?</div>
+                <div class="personalization-subtitle">Saudações regionais como:</div>
+                <div class="regional-examples">
+                    <span class="regional-tag">Uai Sô</span>
+                    <span class="regional-tag">Tchê</span>
+                    <span class="regional-tag">Oxe</span>
+                    <span class="regional-tag">Eita</span>
+                    <span class="regional-tag">Ôi</span>
+                </div>
+                <input type="text" class="name-input-inline" id="nameInputInline" placeholder="Qual seu nome?" maxlength="20">
+                <button class="personalize-btn" onclick="mostrarOpcaoGPS()">Personalizar Experiência</button>
+            </div>
+
+            <!-- NOVO: Seção GPS Premium -->
+            <div class="gps-premium-section" id="gpsPremiumSection">
+                <div class="gps-premium-title">📍 GPS Premium Disponível</div>
+                <div class="gps-premium-description">
+                    Quer precisão máxima? Permita GPS para análise ultra específica da sua localização
+                </div>
+                <button class="gps-premium-btn" onclick="ativarGPSPremium()">🛰️ ATIVAR GPS PREMIUM</button>
+                <button class="gps-basic-btn" onclick="continuarBasico()">📱 Continuar Básico</button>
+            </div>
+
+            <!-- Status de leitura mental -->
+            <div class="mind-reading-status" id="mindReadingStatus" style="display: none;">
+                <div class="mind-text" id="mindText">
+                    Iniciando leitura mental...
+                </div>
+            </div>
+            
+            <div class="personal-greeting" id="personalGreeting" style="display: none;">
+                Analisando seus padrões mentais...
+            </div>
+        </div>
+
+        <!-- Services -->
+        <div class="services" id="servicesContainer">
+            <!-- Serviço 1: Gratuito -->
+            <div class="service-card" onclick="selectService(1)">
+                <div class="service-header">
+                    <div class="service-number">1</div>
+                    <div class="service-badge free">GRATUITO</div>
+                </div>
+                <h3 class="service-title">Aula Grátis + Exercício</h3>
+                <p class="service-description">
+                    Aula GRATUITA completa onde você descobre qual crença limitante específica está sabotando sua vida + exercício prático exclusivo para quebrar esse padrão mental destrutivo.
+                </p>
+                <div class="service-local-info" id="localInfo1">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+                <div class="service-price">GRÁTIS</div>
+                <div class="service-installments">Acesso imediato • Sem compromisso</div>
+                <button class="service-btn">QUERO ACESSO GRATUITO</button>
+            </div>
+
+            <!-- Serviço 2: Premium -->
+            <div class="service-card" onclick="selectService(2)">
+                <div class="service-header">
+                    <div class="service-number">2</div>
+                    <div class="service-badge premium">PREMIUM</div>
+                </div>
+                <h3 class="service-title">Você Comigo Todos os Dias</h3>
+                <p class="service-description">
+                    Você comigo todos os dias por emails + exercícios para ansiedade, medos, bloqueios. Se ansiedade, medos, bloqueios te atrapalham hoje, vamos destravar isso?
+                </p>
+                <div class="service-local-info" id="localInfo2">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+                <div class="service-price">R$ 27,90</div>
+                <div class="service-installments">Por mês • Cancele quando quiser</div>
+                <button class="service-btn premium">COMEÇAR TRANSFORMAÇÃO</button>
+            </div>
+
+            <!-- Serviço 3: VIP -->
+            <div class="service-card" onclick="selectService(3)">
+                <div class="service-header">
+                    <div class="service-number">3</div>
+                    <div class="service-badge vip">VIP COMPLETO</div>
+                </div>
+                <h3 class="service-title">"Conhecer a Ti Mesmo"</h3>
+                <p class="service-description">
+                    Conhecer a ti mesmo, aqui vamos a um autoquestionamento de decisões e eliminação de bloqueios para uma vida saudável. Método para descobrir quem você realmente é.
+                </p>
+                <div class="service-local-info" id="localInfo3">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+                <div class="service-price">R$ 97,00</div>
+                <div class="service-installments">Pagamento único • Acesso vitalício</div>
+                <button class="service-btn vip">SER VIP AGORA</button>
+            </div>
+        </div>
+
+        <!-- Countdown de decisão -->
+        <div class="countdown-section" id="countdownSection">
+            <div class="countdown-text">Qual caminho sua alma escolhe?</div>
+            <div class="countdown-number" id="countdownNumber">5</div>
+            <div class="countdown-subtitle">Suas opções retornam...</div>
+        </div>
+    </div>
+
+    <script>
+        // DADOS REGIONAIS COMPLETOS - TODOS OS 27 ESTADOS
+        const REGIONAL_DATA = {
+            'AC': { 
+                saudacao: 'Ôi', 
+                comida: 'tacacá', 
+                expressao: 'Ô trem da mata!', 
+                gentilico: 'Acreano',
+                regioes: ['Rio Branco', 'Cruzeiro do Sul'],
+                distancia: 3100
+            },
+            'AL': { 
+                saudacao: 'Oxe', 
+                comida: 'sururu', 
+                expressao: 'Massa demais, véi!', 
+                gentilico: 'Alagoano',
+                regioes: ['Maceió', 'Arapiraca'],
+                distancia: 1300
+            },
+            'AP': { 
+                saudacao: 'Fala tu', 
+                comida: 'açaí', 
+                expressao: 'Mano da fronteira!', 
+                gentilico: 'Amapaense',
+                regioes: ['Macapá', 'Santana'],
+                distancia: 2800
+            },
+            'AM': { 
+                saudacao: 'E aí', 
+                comida: 'tambaqui', 
+                expressao: 'Mano da floresta!', 
+                gentilico: 'Amazonense',
+                regioes: ['Manaus', 'Parintins'],
+                distancia: 3300
+            },
+            'BA': { 
+                saudacao: 'Oxe', 
+                comida: 'acarajé', 
+                expressao: 'Oxente, meu rei!', 
+                gentilico: 'Baiano',
+                regioes: ['Salvador', 'Feira de Santana'],
+                distancia: 1100
+            },
+            'CE': { 
+                saudacao: 'Eita', 
+                comida: 'tapioca', 
+                expressao: 'Rapaz do Ceará!', 
+                gentilico: 'Cearense',
+                regioes: ['Fortaleza', 'Caucaia'],
+                distancia: 2100
+            },
+            'DF': { 
+                saudacao: 'Oi', 
+                comida: 'pamonha', 
+                expressao: 'Brasília poder!', 
+                gentilico: 'Brasiliense',
+                regioes: ['Brasília', 'Taguatinga'],
+                distancia: 800
+            },
+            'ES': { 
+                saudacao: 'Oi', 
+                comida: 'moqueca capixaba', 
+                expressao: 'Capixaba raiz!', 
+                gentilico: 'Capixaba',
+                regioes: ['Vitória', 'Vila Velha'],
+                distancia: 400
+            },
+            'GO': { 
+                saudacao: 'Ôi', 
+                comida: 'empadão goiano', 
+                expressao: 'Goiás coração!', 
+                gentilico: 'Goiano',
+                regioes: ['Goiânia', 'Anápolis'],
+                distancia: 900
+            },
+            'MA': { 
+                saudacao: 'Ôi', 
+                comida: 'torta de camarão', 
+                expressao: 'Maranhão show!', 
+                gentilico: 'Maranhense',
+                regioes: ['São Luís', 'Imperatriz'],
+                distancia: 1900
+            },
+            'MG': { 
+                saudacao: 'Uai sô', 
+                comida: 'pão de queijo', 
+                expressao: 'Ô trem bão!', 
+                gentilico: 'Mineiro',
+                regioes: ['Belo Horizonte', 'Ipatinga', 'Timóteo'],
+                distancia: 200
+            },
+            'MS': { 
+                saudacao: 'Oi', 
+                comida: 'sobá', 
+                expressao: 'Sul-mato-grossense!', 
+                gentilico: 'Sul-mato-grossense',
+                regioes: ['Campo Grande', 'Dourados'],
+                distancia: 1200
+            },
+            'MT': { 
+                saudacao: 'Oi', 
+                comida: 'pacu', 
+                expressao: 'Cuiabano raiz!', 
+                gentilico: 'Mato-grossense',
+                regioes: ['Cuiabá', 'Várzea Grande'],
+                distancia: 1400
+            },
+            'PA': { 
+                saudacao: 'Ôi', 
+                comida: 'açaí', 
+                expressao: 'Belense raiz!', 
+                gentilico: 'Paraense',
+                regioes: ['Belém', 'Ananindeua'],
+                distancia: 2400
+            },
+            'PB': { 
+                saudacao: 'Oxe', 
+                comida: 'cuscuz', 
+                expressao: 'Paraíba show de bola!', 
+                gentilico: 'Paraibano',
+                regioes: ['João Pessoa', 'Campina Grande'],
+                distancia: 1700
+            },
+            'PE': { 
+                saudacao: 'Oxe', 
+                comida: 'tapioca', 
+                expressao: 'Cabra bom demais!', 
+                gentilico: 'Pernambucano',
+                regioes: ['Recife', 'Jaboatão', 'Olinda'],
+                distancia: 1500
+            },
+            'PI': { 
+                saudacao: 'Rapaz', 
+                comida: 'cajuína', 
+                expressao: 'Piauí presente!', 
+                gentilico: 'Piauiense',
+                regioes: ['Teresina', 'Parnaíba'],
+                distancia: 1400
+            },
+            'PR': { 
+                saudacao: 'Oi', 
+                comida: 'barreado', 
+                expressao: 'Paranaense show!', 
+                gentilico: 'Paranaense',
+                regioes: ['Curitiba', 'Londrina'],
+                distancia: 1100
+            },
+            'RJ': { 
+                saudacao: 'Fala aê', 
+                comida: 'feijoada', 
+                expressao: 'Muito love, irmão!', 
+                gentilico: 'Carioca',
+                regioes: ['Rio de Janeiro', 'Niterói'],
+                distancia: 500
+            },
+            'RN': { 
+                saudacao: 'Ôi', 
+                comida: 'ginga', 
+                expressao: 'Potiguar raiz!', 
+                gentilico: 'Potiguar',
+                regioes: ['Natal', 'Mossoró'],
+                distancia: 1800
+            },
+            'RO': { 
+                saudacao: 'Ôi', 
+                comida: 'tambaqui', 
+                expressao: 'Desbravador!', 
+                gentilico: 'Rondoniense',
+                regioes: ['Porto Velho', 'Ji-Paraná'],
+                distancia: 2200
+            },
+            'RR': { 
+                saudacao: 'Ôi', 
+                comida: 'pacu', 
+                expressao: 'Norte extremo!', 
+                gentilico: 'Roraimense',
+                regioes: ['Boa Vista', 'Caracaraí'],
+                distancia: 3500
+            },
+            'RS': { 
+                saudacao: 'Bah', 
+                comida: 'churrasco', 
+                expressao: 'Tchê, barbaridade!', 
+                gentilico: 'Gaúcho',
+                regioes: ['Porto Alegre', 'Caxias do Sul'],
+                distancia: 1500
+            },
+            'SC': { 
+                saudacao: 'Ôi', 
+                comida: 'sequência de camarão', 
+                expressao: 'Manezinho da ilha!', 
+                gentilico: 'Catarinense',
+                regioes: ['Florianópolis', 'Joinville'],
+                distancia: 1300
+            },
+            'SE': { 
+                saudacao: 'Ôi', 
+                comida: 'caranguejo', 
+                expressao: 'Sergipe massa!', 
+                gentilico: 'Sergipano',
+                regioes: ['Aracaju', 'Nossa Senhora do Socorro'],
+                distancia: 1200
+            },
+            'SP': { 
+                saudacao: 'E aí', 
+                comida: 'coxinha', 
+                expressao: 'Sampa na veia!', 
+                gentilico: 'Paulista',
+                regioes: ['São Paulo', 'Guarulhos', 'Campinas'],
+                distancia: 600
+            },
+            'TO': { 
+                saudacao: 'Ôi', 
+                comida: 'pequi', 
+                expressao: 'Cerrado raiz!', 
+                gentilico: 'Tocantinense',
+                regioes: ['Palmas', 'Araguaína'],
+                distancia: 1800
+            }
+        };
+
+        // Variáveis globais
+        let userData = {
+            name: '',
+            city: 'São Paulo',
+            state: 'SP',
+            greeting: 'E aí',
+            food: 'coxinha',
+            expression: 'Sampa na veia!',
+            gentilico: 'Paulista',
+            regioes: ['São Paulo'],
+            cultural: 'Tem pastel de feira hoje',
+            distance: 247,
+            hasGPS: false,
+            latitude: null,
+            longitude: null,
+            accuracy: null,
+            hora: '',
+            minuto: ''
+        };
+
+        let ttsActive = false;
+        let currentVoice = null;
+        let originalScrollPosition = 0;
+        let isPresenting = false;
+
+        // SISTEMA GPS REAL
+        async function ativarGPSPremium() {
+            const nameInput = document.getElementById('nameInputInline');
+            const nome = nameInput.value.trim();
+            
+            if (!nome || nome.length < 2) {
+                nameInput.style.borderColor = 'var(--red)';
+                nameInput.placeholder = 'Digite um nome válido primeiro';
+                nameInput.focus();
+                return;
+            }
+            
+            userData.name = nome;
+            
+            if (!navigator.geolocation) {
+                alert('GPS não disponível neste navegador');
+                continuarBasico();
+                return;
+            }
+            
+            const loadingGeo = document.getElementById('loadingGeo');
+            loadingGeo.textContent = 'Obtendo GPS...';
+            loadingGeo.classList.add('show');
+            
+            try {
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(
+                        resolve, 
+                        reject,
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 15000,
+                            maximumAge: 300000
+                        }
+                    );
+                });
+                
+                userData.hasGPS = true;
+                userData.latitude = position.coords.latitude;
+                userData.longitude = position.coords.longitude;
+                userData.accuracy = position.coords.accuracy;
+                
+                // Calcular distância precisa
+                userData.distance = calcularDistanciaHaversine(
+                    userData.latitude, userData.longitude,
+                    -19.5825, -42.6278  // Timóteo-MG
+                );
+                
+                console.log(`GPS obtido: ${userData.latitude}, ${userData.longitude} (±${Math.round(userData.accuracy)}m)`);
+                console.log(`Distância para Timóteo: ${Math.round(userData.distance)}km`);
+                
+                loadingGeo.textContent = `GPS: ±${Math.round(userData.accuracy)}m`;
+                setTimeout(() => loadingGeo.classList.remove('show'), 2000);
+                
+                startPersonalizedExperience();
+                
+            } catch (error) {
+                console.warn('GPS falhou:', error);
+                loadingGeo.classList.remove('show');
+                alert('GPS negado. Continuando com experiência básica.');
+                continuarBasico();
+            }
+        }
+
+        function continuarBasico() {
+            const nameInput = document.getElementById('nameInputInline');
+            const nome = nameInput.value.trim();
+            
+            if (!nome || nome.length < 2) {
+                nameInput.style.borderColor = 'var(--red)';
+                nameInput.placeholder = 'Digite um nome válido';
+                nameInput.focus();
+                return;
+            }
+            
+            userData.name = nome;
+            userData.hasGPS = false;
+            startPersonalizedExperience();
+        }
+
+        function mostrarOpcaoGPS() {
+            const nameInput = document.getElementById('nameInputInline');
+            const nome = nameInput.value.trim();
+            
+            if (!nome || nome.length < 2) {
+                nameInput.style.borderColor = 'var(--red)';
+                nameInput.placeholder = 'Digite um nome válido primeiro';
+                nameInput.focus();
+                return;
+            }
+            
+            // Mostrar opção GPS
+            document.getElementById('personalizationSection').style.display = 'none';
+            document.getElementById('gpsPremiumSection').style.display = 'block';
+        }
+
+        // CALCULAR DISTÂNCIA HAVERSINE
+        function calcularDistanciaHaversine(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Raio da Terra em km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // DETECÇÃO MELHORADA COM MÚLTIPLOS FALLBACKS
+        async function detectLocationWithFallback() {
+            console.log('Detectando localização com fallback inteligente...');
+            const loadingIndicator = document.getElementById('loadingGeo');
+            loadingIndicator.classList.add('show');
+
+            const apis = [
+                { url: 'https://ipinfo.io/json', parser: (data) => ({ city: data.city, state: data.region, country: data.country }) },
+                { url: 'https://get.geojs.io/v1/ip/geo.json', parser: (data) => ({ city: data.city, state: data.region, country: data.country_code }) },
+                { url: 'https://ipapi.co/json/', parser: (data) => ({ city: data.city, state: data.region_code, country: data.country_code }) }
+            ];
+
+            for (let api of apis) {
+                try {
+                    const response = await fetch(api.url);
+                    const data = await response.json();
+                    const parsed = api.parser(data);
+                    
+                    if (parsed.city && parsed.state && parsed.country === 'BR') {
+                        let stateCode = mapearEstadoPorNome(parsed.state);
+                        
+                        if (!stateCode || stateCode.length > 2) {
+                            stateCode = detectarEstadoPorCidade(parsed.city);
+                        }
+                        
+                        if (REGIONAL_DATA[stateCode]) {
+                            aplicarDadosRegionais(parsed.city, stateCode);
+                            loadingIndicator.classList.remove('show');
+                            return true;
+                        }
+                    }
+                } catch (error) {
+                    console.warn(`Falha na API ${api.url}:`, error);
+                    continue;
+                }
+            }
+            
+            // Fallback para São Paulo
+            aplicarDadosRegionais('São Paulo', 'SP');
+            loadingIndicator.classList.remove('show');
+            return false;
+        }
+
+        // MAPEAR NOME DO ESTADO PARA CÓDIGO
+        function mapearEstadoPorNome(nomeEstado) {
+            const mapeamento = {
+                'São Paulo': 'SP', 'Sao Paulo': 'SP',
+                'Minas Gerais': 'MG', 'Rio de Janeiro': 'RJ',
+                'Bahia': 'BA', 'Paraná': 'PR', 'Parana': 'PR',
+                'Rio Grande do Sul': 'RS', 'Pernambuco': 'PE',
+                'Ceará': 'CE', 'Ceara': 'CE', 'Pará': 'PA', 'Para': 'PA',
+                'Santa Catarina': 'SC', 'Goiás': 'GO', 'Goias': 'GO',
+                'Maranhão': 'MA', 'Maranhao': 'MA', 'Paraíba': 'PB', 'Paraiba': 'PB',
+                'Espírito Santo': 'ES', 'Espirito Santo': 'ES', 'Amazonas': 'AM',
+                'Mato Grosso': 'MT', 'Alagoas': 'AL', 'Piauí': 'PI', 'Piaui': 'PI',
+                'Distrito Federal': 'DF', 'Mato Grosso do Sul': 'MS',
+                'Sergipe': 'SE', 'Rondônia': 'RO', 'Rondonia': 'RO',
+                'Acre': 'AC', 'Roraima': 'RR', 'Amapá': 'AP', 'Amapa': 'AP',
+                'Tocantins': 'TO', 'Rio Grande do Norte': 'RN'
+            };
+            
+            return mapeamento[nomeEstado] || nomeEstado;
+        }
+
+        // DETECTAR ESTADO POR CIDADE
+        function detectarEstadoPorCidade(nomeCidade) {
+            const cidadesPorEstado = {
+                'MT': ['Cuiabá', 'Cuiaba', 'Várzea Grande', 'Varzea Grande', 'Rondonópolis', 'Sinop'],
+                'PE': ['Recife', 'Jaboatão', 'Jaboatao', 'Olinda', 'Caruaru', 'Petrolina'],
+                'MG': ['Belo Horizonte', 'Ipatinga', 'Timóteo', 'Timoteo', 'Uberlândia', 'Contagem'],
+                'SP': ['São Paulo', 'Sao Paulo', 'Guarulhos', 'Campinas', 'Santos', 'Ribeirão Preto'],
+                'RJ': ['Rio de Janeiro', 'Niterói', 'Niteroi', 'Nova Iguaçu', 'Duque de Caxias'],
+                'BA': ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari'],
+                'RS': ['Porto Alegre', 'Caxias do Sul', 'Canoas', 'Pelotas'],
+                'PR': ['Curitiba', 'Londrina', 'Maringá', 'Maringa', 'Ponta Grossa'],
+                'SC': ['Florianópolis', 'Florianopolis', 'Joinville', 'Blumenau'],
+                'GO': ['Goiânia', 'Goiania', 'Aparecida de Goiânia', 'Anápolis'],
+                'CE': ['Fortaleza', 'Caucaia', 'Juazeiro do Norte', 'Sobral'],
+                'PA': ['Belém', 'Belem', 'Ananindeua', 'Santarém'],
+                'AM': ['Manaus', 'Parintins', 'Itacoatiara'],
+                'MA': ['São Luís', 'Sao Luis', 'Imperatriz', 'Caxias'],
+                'PB': ['João Pessoa', 'Joao Pessoa', 'Campina Grande'],
+                'ES': ['Vitória', 'Vitoria', 'Vila Velha', 'Cariacica'],
+                'AL': ['Maceió', 'Maceio', 'Arapiraca'],
+                'RN': ['Natal', 'Mossoró', 'Mossoro'],
+                'MS': ['Campo Grande', 'Dourados', 'Três Lagoas'],
+                'PI': ['Teresina', 'Parnaíba'],
+                'AC': ['Rio Branco', 'Cruzeiro do Sul'],
+                'RO': ['Porto Velho', 'Ji-Paraná'],
+                'AP': ['Macapá', 'Santana'],
+                'RR': ['Boa Vista'],
+                'TO': ['Palmas', 'Araguaína'],
+                'SE': ['Aracaju'],
+                'DF': ['Brasília', 'Brasilia', 'Taguatinga']
+            };
+            
+            const cidade = nomeCidade.toLowerCase();
+            
+            for (const [estado, cidades] of Object.entries(cidadesPorEstado)) {
+                if (cidades.some(c => cidade.includes(c.toLowerCase()) || c.toLowerCase().includes(cidade))) {
+                    return estado;
+                }
+            }
+            
+            return 'SP'; // Fallback
+        }
+
+        function aplicarDadosRegionais(cidade, estado) {
+            userData.city = cidade;
+            userData.state = estado;
+            
+            const regional = REGIONAL_DATA[estado] || REGIONAL_DATA['SP'];
+            userData.greeting = regional.saudacao;
+            userData.food = regional.comida;
+            userData.expression = regional.expressao;
+            userData.gentilico = regional.gentilico;
+            userData.regioes = regional.regioes;
+            userData.distance = userData.distance || regional.distancia;
+            
+            console.log(`Dados aplicados: ${userData.greeting} de ${userData.city}-${userData.state}`);
+        }
+
+        // Mensagens de leitura mental
+        function generateMindMessages() {
+            const agora = new Date();
+            const hora = agora.getHours();
+            const minuto = agora.getMinutes().toString().padStart(2, '0');
+            userData.hora = hora;
+            userData.minuto = minuto;
+            
+            const locaisEspecificos = userData.regioes || ['São Paulo'];
+            const localEscolhido = locaisEspecificos[Math.floor(Math.random() * locaisEspecificos.length)];
+
+            let mensagens = [
+                {
+                    text: userData.name ? `PARE, ${userData.name.toUpperCase()}!` : 'PARE AGORA!',
+                    class: 'shock',
+                    duration: 1000
+                },
+                {
+                    text: `São ${hora}:${minuto} exato`,
+                    class: 'location',
+                    duration: 1800
+                },
+                {
+                    text: `${userData.greeting}!`,
+                    class: 'cultural',
+                    duration: 1200
+                },
+                {
+                    text: `${userData.gentilico}?`,
+                    class: 'cultural',
+                    duration: 1600
+                },
+                {
+                    text: `${userData.city}?`,
+                    class: 'location',
+                    duration: 1600
+                },
+                {
+                    text: `Próximo de ${localEscolhido}?`,
+                    class: 'location',
+                    duration: 2000
+                },
+                {
+                    text: `Tem ${userData.food} aí né!`,
+                    class: 'cultural',
+                    duration: 2200
+                }
+            ];
+
+            // Adicionar precisão GPS se disponível
+            if (userData.hasGPS && userData.accuracy) {
+                mensagens.push({
+                    text: `GPS: ±${Math.round(userData.accuracy)}m`,
+                    class: 'revelation',
+                    duration: 1800
+                });
+            }
+
+            mensagens.push({
+                text: 'Como EU sei disso?',
+                class: 'revelation',
+                duration: 1800
+            });
+
+            mensagens.push({
+                text: 'SUA MENTE FOI LIDA!',
+                class: 'shock',
+                duration: 2500
+            });
+
+            return mensagens;
+        }
+
+        // Sistema TTS
+        function initVoice() {
+            if ('speechSynthesis' in window) {
+                const voices = speechSynthesis.getVoices();
+                currentVoice = voices.find(v => v.lang.includes('pt-BR')) || voices[0];
+            }
+        }
+
+        function speak(text) {
+            if (!ttsActive && 'speechSynthesis' in window) {
+                ttsActive = true;
+                
+                const avatar = document.getElementById('avatar');
+                avatar.classList.add('speaking');
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'pt-BR';
+                utterance.voice = currentVoice;
+                utterance.rate = 0.9;
+                utterance.pitch = 1.1;
+                
+                utterance.onend = () => {
+                    ttsActive = false;
+                    avatar.classList.remove('speaking');
+                };
+                
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Sistema de scroll controlado
+        function lockScrollAt(position) {
+            originalScrollPosition = window.pageYOffset;
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${originalScrollPosition}px`;
+            document.body.style.width = '100%';
+            isPresenting = true;
+        }
+
+        function unlockScroll() {
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, originalScrollPosition);
+            isPresenting = false;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Sistema de experiência personalizada
+        async function startPersonalizedExperience() {
+            console.log(`Nome "${userData.name}" coletado - iniciando experiência personalizada`);
+            
+            // Scroll para header e travar
+            const header = document.querySelector('.header');
+            header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            await sleep(800);
+            lockScrollAt(window.pageYOffset);
+            
+            // Esconder seções e mostrar leitura mental
+            document.getElementById('personalizationSection').style.display = 'none';
+            document.getElementById('gpsPremiumSection').style.display = 'none';
+            
+            const mindStatus = document.getElementById('mindReadingStatus');
+            mindStatus.style.display = 'flex';
+            
+            setTimeout(() => {
+                startGuidedMindReadingWithAvatarOverlay();
+            }, 500);
+        }
+
+        // Sequência de leitura mental
+        async function startGuidedMindReadingWithAvatarOverlay() {
+            const mindText = document.getElementById('mindText');
+            const mindStatus = document.getElementById('mindReadingStatus');
+            const avatarMessage = document.getElementById('avatarMessage');
+            const mindMessages = generateMindMessages();
+            
+            // FASE 1: Leitura mental completa
+            for (let index = 0; index < mindMessages.length; index++) {
+                const messageObj = mindMessages[index];
+                let personalizedMessage = messageObj.text;
+
+                // Efeito de scan
+                mindStatus.classList.add('active');
+                setTimeout(() => mindStatus.classList.remove('active'), 800);
+                
+                // Fade out
+                mindText.classList.add('fade-out');
+                avatarMessage.classList.remove('show');
+                avatarMessage.classList.remove(...['shock', 'revelation', 'location', 'cultural']);
+                avatarMessage.classList.add('fadeout');
+                
+                await sleep(400);
+                
+                // Atualizar textos
+                mindText.textContent = personalizedMessage;
+                mindText.classList.remove('fade-out');
+                avatarMessage.textContent = personalizedMessage;
+                avatarMessage.classList.remove('fadeout');
+                
+                if (messageObj.class) {
+                    avatarMessage.classList.add(messageObj.class);
+                }
+                
+                mindText.classList.add('active');
+                avatarMessage.classList.add('show');
+                
+                speak(personalizedMessage);
+                await sleep(messageObj.duration);
+            }
+            
+            // FASE 2: Finalizar leitura mental
+            await sleep(1000);
+            mindStatus.style.display = 'none';
+            avatarMessage.classList.remove('show');
+            
+            // FASE 3: GREETING PERSONALIZADO
+            const greeting = document.getElementById('personalGreeting');
+            greeting.style.display = 'block';
+            updateContent();
+            
+            const greetingText = greeting.textContent;
+            speak(greetingText);
+            
+            // AGUARDAR TTS completar
+            await sleep(3000);
+            
+            // FASE 4: LIBERAR scroll e iniciar serviços
+            unlockScroll();
+            await startControlledServicePresentation();
+        }
+
+        // Apresentação de serviços
+        async function startControlledServicePresentation() {
+            const serviceCards = document.querySelectorAll('.service-card');
+            const avatarMessage = document.getElementById('avatarMessage');
+            
+            console.log('Iniciando apresentação dos serviços...');
+            
+            // Mensagens para cada serviço
+            const servicePresentations = [
+                {
+                    messages: [
+                        {
+                            text: `OPÇÃO 1`,
+                            class: 'cultural',
+                            duration: 800
+                        },
+                        {
+                            text: 'AULA GRÁTIS + EXERCÍCIO',
+                            class: 'shock',
+                            duration: 1200,
+                            speak: true
+                        },
+                        {
+                            text: 'Qual bloqueio nos impede',
+                            class: 'revelation',
+                            duration: 1100
+                        },
+                        {
+                            text: 'de quase TUDO?',
+                            class: 'shock',
+                            duration: 1800,
+                            speak: true
+                        }
+                    ]
+                },
+                {
+                    messages: [
+                        {
+                            text: `OPÇÃO 2`,
+                            class: 'cultural',
+                            duration: 800
+                        },
+                        {
+                            text: 'VOCÊ COMIGO TODOS OS DIAS',
+                            class: 'revelation',
+                            duration: 1200,
+                            speak: true
+                        },
+                        {
+                            text: 'Por EMAILS + exercícios',
+                            class: 'location',
+                            duration: 1000
+                        },
+                        {
+                            text: 'ANSIEDADE te atrapalha?',
+                            class: 'shock',
+                            duration: 1100,
+                            speak: true
+                        },
+                        {
+                            text: 'MEDOS te paralisam?',
+                            class: 'shock',
+                            duration: 1100,
+                            speak: true
+                        },
+                        {
+                            text: 'BLOQUEIOS te limitam?',
+                            class: 'shock',
+                            duration: 1100,
+                            speak: true
+                        },
+                        {
+                            text: 'VAMOS DESTRAVAR ISSO!',
+                            class: 'revelation',
+                            duration: 1600,
+                            speak: true
+                        }
+                    ]
+                },
+                {
+                    messages: [
+                        {
+                            text: `OPÇÃO 3`,
+                            class: 'cultural',
+                            duration: 800
+                        },
+                        {
+                            text: 'CONHECER A TI MESMO',
+                            class: 'shock',
+                            duration: 1300,
+                            speak: true
+                        },
+                        {
+                            text: 'Aqui vamos trazer questões',
+                            class: 'revelation',
+                            duration: 1200
+                        },
+                        {
+                            text: 'que levam a RESOLUÇÕES',
+                            class: 'shock',
+                            duration: 1200,
+                            speak: true
+                        },
+                        {
+                            text: 'dos principais bloqueios:',
+                            class: 'location',
+                            duration: 1000
+                        },
+                        {
+                            text: 'MEDO, ANSIEDADE, TRISTEZA',
+                            class: 'shock',
+                            duration: 1400,
+                            speak: true
+                        },
+                        {
+                            text: 'NÃO SOU CAPAZ',
+                            class: 'revelation',
+                            duration: 1200,
+                            speak: true
+                        },
+                        {
+                            text: 'entre MUITOS outros!',
+                            class: 'shock',
+                            duration: 1100,
+                            speak: true
+                        },
+                        {
+                            text: 'R$ 97,00 ÚNICO pagamento',
+                            class: 'cultural',
+                            duration: 1600,
+                            speak: true
+                        }
+                    ]
+                }
+            ];
+
+            // Apresentar cada serviço sequencialmente
+            for (let serviceIndex = 0; serviceIndex < serviceCards.length; serviceIndex++) {
+                console.log(`Apresentando serviço ${serviceIndex + 1}...`);
+                
+                const serviceCard = serviceCards[serviceIndex];
+                const presentation = servicePresentations[serviceIndex];
+
+                // Scroll para serviço atual
+                serviceCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                await sleep(1200);
+                
+                // Travar scroll durante apresentação
+                lockScrollAt(window.pageYOffset);
+
+                // Destacar serviço atual
+                serviceCards.forEach(card => card.style.opacity = '0.4');
+                serviceCard.style.opacity = '1';
+                serviceCard.classList.add('highlighted');
+
+                // Apresentar todas as mensagens do serviço
+                for (let i = 0; i < presentation.messages.length; i++) {
+                    const message = presentation.messages[i];
+                    
+                    // Fade out mensagem anterior
+                    avatarMessage.classList.remove('show');
+                    avatarMessage.classList.remove(...['shock', 'revelation', 'location', 'cultural', 'countdown']);
+                    avatarMessage.classList.add('fadeout');
+                    await sleep(300);
+                    
+                    // Mostrar nova mensagem
+                    avatarMessage.textContent = message.text;
+                    avatarMessage.classList.remove('fadeout');
+                    avatarMessage.classList.add('show', message.class);
+                    
+                    // TTS se marcado
+                    if (message.speak) {
+                        speak(message.text);
+                    }
+                    
+                    await sleep(message.duration);
+                }
+
+                // Reset visual do serviço
+                serviceCard.classList.remove('highlighted');
+                
+                // Liberar scroll brevemente antes do próximo
+                unlockScroll();
+                await sleep(500);
+            }
+
+            console.log('Todos os serviços apresentados. Iniciando countdown...');
+            await startCountdownSequence();
+        }
+
+        // Sequência de countdown
+        async function startCountdownSequence() {
+            console.log('Iniciando countdown de decisão...');
+            
+            const avatarMessage = document.getElementById('avatarMessage');
+            const countdownSection = document.getElementById('countdownSection');
+            const serviceCards = document.querySelectorAll('.service-card');
+            
+            // Restaurar todos os serviços
+            serviceCards.forEach(card => card.style.opacity = '1');
+            await sleep(500);
+            
+            // Scroll para countdown
+            countdownSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            await sleep(1500);
+            
+            // Mostrar seção de countdown
+            countdownSection.classList.add('show');
+            
+            // Travar scroll na seção de countdown
+            lockScrollAt(window.pageYOffset);
+            
+            // REMOVER: Pular direto para countdown sem pergunta
+            
+            // Countdown regressivo
+            const countdownNumber = document.getElementById('countdownNumber');
+            
+            for (let i = 6; i >= 1; i--) {
+                countdownNumber.textContent = i;
+                
+                // Sincronizar avatar com contagem
+                avatarMessage.classList.remove('show');
+                avatarMessage.classList.add('fadeout');
+                await sleep(200);
+                
+                avatarMessage.textContent = `${i}`;
+                avatarMessage.classList.remove('fadeout');
+                avatarMessage.classList.add('show', 'countdown');
+                
+                await sleep(800);
+            }
+            
+            // Mensagem final
+            avatarMessage.classList.remove('show');
+            avatarMessage.classList.add('fadeout');
+            await sleep(200);
+            
+            avatarMessage.textContent = 'Suas opções retornam...';
+            avatarMessage.classList.remove('fadeout');
+            avatarMessage.classList.add('show', 'cultural');
+            speak('Suas opções retornam');
+            
+            await sleep(1500);
+            
+            // Scroll reverso para opções
+            unlockScroll();
+            const firstService = serviceCards[0];
+            firstService.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+            
+            await sleep(2500);
+            
+            // Destacar todas as opções
+            serviceCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.transform = 'scale(1.02)';
+                    card.style.boxShadow = 'var(--shadow-glow)';
+                    card.style.borderColor = 'var(--accent)';
+                    
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                        card.style.boxShadow = 'var(--shadow-card)';
+                        card.style.borderColor = 'rgba(212, 175, 55, 0.2)';
+                    }, 2000);
+                }, index * 300);
+            });
+            
+            // Esconder countdown
+            countdownSection.classList.remove('show');
+            
+            // Mensagem final
+            await sleep(1000);
+            avatarMessage.classList.remove('show');
+            avatarMessage.classList.add('fadeout');
+            await sleep(300);
+            
+            avatarMessage.textContent = 'Sua transformação te espera...';
+            avatarMessage.classList.remove('fadeout');
+            avatarMessage.classList.add('show', 'revelation');
+            
+            console.log('Sequência completa finalizada.');
+        }
+
+        // Atualizar conteúdo personalizado
+        function updateContent() {
+            const greeting = document.getElementById('personalGreeting');
+            
+            let saudacao = userData.name ? 
+                `${userData.greeting}, ${userData.name}!` : 
+                `${userData.greeting}!`;
+
+            const mensagemCompleta = `${saudacao} ${userData.hora}:${userData.minuto} em ${userData.city}! ${userData.expression}! ${userData.gentilico}, sua mente merece TRANSFORMAÇÃO completa!`;
+
+            greeting.textContent = mensagemCompleta;
+
+            // Atualizar info locais
+            document.getElementById('localInfo1').textContent = 
+                `Em ${userData.city}, quem tem ${userData.food} no café merece paz mental GRATUITA!`;
+                
+            document.getElementById('localInfo2').textContent = 
+                `Emails diários personalizados para ${userData.gentilico} de ${userData.state} • Método regional adaptado`;
+                
+            document.getElementById('localInfo3').textContent = 
+                `${userData.expression}! Transformação COMPLETA para ${userData.city}! Programa vitalício regional`;
+        }
+
+        // Seleção de serviços
+        function selectService(serviceNumber) {
+            const services = {
+                1: 'AULA GRATUITA + Exercício Libertador - Crença Limitante',
+                2: 'EMAILS DIÁRIOS Premium com Exercícios Específicos (R$ 27,90/mês)',
+                3: 'CONHECER A TI MESMO - Programa Completo Vitalício (R$ 97)'
+            };
+
+            const greeting = userData.name ? `Olá Adriana! Sou ${userData.name}` : 'Olá Adriana!';
+            const locationInfo = `de ${userData.city}-${userData.state}`;
+            
+            const message = encodeURIComponent(
+                `${greeting} ${locationInfo}. ${userData.expression} Vim pelo seu link bio depois da LEITURA MENTAL e tenho interesse em: ${services[serviceNumber]}. Como posso começar minha transformação mental completa?`
+            );
+
+            window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
+        }
+
+        // Event listeners
+        document.getElementById('nameInputInline').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                mostrarOpcaoGPS();
+            }
+        });
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Carregar nome salvo
+            const savedName = localStorage.getItem('userName');
+            if (savedName) {
+                userData.name = savedName;
+                document.getElementById('nameInputInline').value = savedName;
+            }
+
+            // Detectar localização
+            await detectLocationWithFallback();
+            
+            // Inicializar TTS
+            if ('speechSynthesis' in window) {
+                speechSynthesis.addEventListener('voiceschanged', initVoice);
+                if (speechSynthesis.getVoices().length > 0) {
+                    initVoice();
+                }
+            }
+        });
+
+        // Funções de teste
+        window.testarFluxo = function() {
+            console.log('Testando fluxo completo');
+            userData.name = 'Teste';
+            startPersonalizedExperience();
+        };
+
+        window.testarTamanhoAvatar = function(tamanho) {
+            const avatar = document.getElementById('avatar');
+            const tamanhos = {
+                'pequeno': { width: '250px', height: '375px' },
+                'medio': { width: '350px', height: '525px' },
+                'grande': { width: '420px', height: '630px' },
+                'gigante': { width: '500px', height: '750px' }
+            };
+            
+            const config = tamanhos[tamanho];
+            if (config && avatar) {
+                avatar.style.width = config.width;
+                avatar.style.height = config.height;
+                console.log(`Avatar alterado para: ${tamanho} - ${config.width}`);
+            }
+        };
+
+        console.log('Sistema carregado. Comandos disponíveis:');
+        console.log('testarFluxo() - Testar experiência completa');
+        console.log('testarTamanhoAvatar("pequeno|medio|grande|gigante") - Testar tamanhos');
+    </script>
+</body>
+</html>
+                
